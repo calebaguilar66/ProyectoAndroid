@@ -75,6 +75,9 @@ fun Login(modifier: Modifier = Modifier) {
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
+            Button(onClick = {}){
+                Text("Login")
+            }
 
         }
 
