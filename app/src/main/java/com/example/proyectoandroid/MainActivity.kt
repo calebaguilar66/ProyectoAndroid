@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -17,6 +18,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.proyectoandroid.ui.theme.ProyectoAndroidTheme
 
 class MainActivity : ComponentActivity() {
@@ -25,16 +30,20 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ProyectoAndroidTheme {
+                val navController = rememberNavController()
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Login(modifier = Modifier.padding(innerPadding))
+                    NavHost(navController = navController, startDestination = "login") {
+                        composable("login") { Login(modifier = Modifier.padding(innerPadding), navController = navController) }
+                        composable("protocolos") { Protocolos(modifier = Modifier.padding(innerPadding), navController = navController) }
+                    }
                 }
             }
         }
     }
 }
-
+//Ventana de Inicio de Sesion
 @Composable
-fun Login(modifier: Modifier = Modifier) {
+fun Login(modifier: Modifier = Modifier, navController: NavController) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -77,7 +86,7 @@ fun Login(modifier: Modifier = Modifier) {
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Button(onClick = {}){
+            Button(onClick = { navController.navigate("protocolos")}){
                 Text("Login")
             }
 
@@ -86,14 +95,32 @@ fun Login(modifier: Modifier = Modifier) {
     }
 
 }
-
+//Ventana de Protocolos de Seguridad y Salud
 @Composable
-fun Protocolos(modifier: Modifier = Modifier){
+fun Protocolos(modifier: Modifier = Modifier, navController: NavController){
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ){
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.White)
+                .padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ){
+            Button(onClick = { navController.navigate("protocolos") }) {
+                Text("Protocolos")
+            }
+            Button(onClick = { navController.navigate("login") }) {
+                Text("Cerrar sesión")
+            }
+
+        }
+        Spacer(modifier = Modifier.height(70.dp))
+
+
         Text(
             text = "Protocolos de Seguridad",
             fontSize = 18.sp,
@@ -104,7 +131,7 @@ fun Protocolos(modifier: Modifier = Modifier){
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp)
-                .border(1.dp, Color.Gray)
+                .border(1.dp, Color.Green)
                 .padding(8.dp)
         ){
             Text(
@@ -122,7 +149,7 @@ fun Protocolos(modifier: Modifier = Modifier){
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp)
-                .border(1.dp, Color.Gray)
+                .border(1.dp, Color.Green)
                 .padding(8.dp)
         ){
             Text(
@@ -134,7 +161,7 @@ fun Protocolos(modifier: Modifier = Modifier){
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp)
-                .border(1.dp, Color.Gray)
+                .border(1.dp, Color.Green)
         ){
             Text(
                 "Video",
@@ -150,14 +177,14 @@ fun Protocolos(modifier: Modifier = Modifier){
 @Composable
 fun LoginPreview() {
     ProyectoAndroidTheme {
-        Login()
+        Login(navController = rememberNavController())
     }
 }
 @Preview(showBackground = true)
 @Composable
 fun ProtocolosPreview(){
     ProyectoAndroidTheme {
-        Protocolos()
+        Protocolos(navController = rememberNavController())
     }
 }
 
