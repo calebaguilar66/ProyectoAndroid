@@ -5,11 +5,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -85,6 +87,65 @@ fun Login(modifier: Modifier = Modifier) {
 
 }
 
+@Composable
+fun Protocolos(modifier: Modifier = Modifier){
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ){
+        Text(
+            text = "Protocolos de Seguridad",
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp)
+                .border(1.dp, Color.Gray)
+                .padding(8.dp)
+        ){
+            Text(
+                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac risus vel ligula lacinia ullamcorper. Pellentesque habitant morbi tristique senectus et netus et malesuada fames.",
+                fontSize = 14.sp
+            )
+        }
+        Text(
+            text = "Protocolos de Salud",
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp)
+                .border(1.dp, Color.Gray)
+                .padding(8.dp)
+        ){
+            Text(
+                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac risus vel ligula lacinia ullamcorper. Pellentesque habitant morbi tristique senectus et netus et malesuada fames.",
+                fontSize = 14.sp
+            )
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .border(1.dp, Color.Gray)
+        ){
+            Text(
+                "Video",
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
+
+
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun LoginPreview() {
@@ -92,3 +153,11 @@ fun LoginPreview() {
         Login()
     }
 }
+@Preview(showBackground = true)
+@Composable
+fun ProtocolosPreview(){
+    ProyectoAndroidTheme {
+        Protocolos()
+    }
+}
+
