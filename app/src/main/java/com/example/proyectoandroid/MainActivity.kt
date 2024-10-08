@@ -76,7 +76,7 @@ fun Login(modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             Button(onClick = {}){
-                Text("Login de prueba")
+                Text("Login")
             }
 
         }
