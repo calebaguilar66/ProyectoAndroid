@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -44,6 +45,10 @@ class MainActivity : ComponentActivity() {
 //Ventana de Inicio de Sesion
 @Composable
 fun Login(modifier: Modifier = Modifier, navController: NavController) {
+    var correo by remember { mutableStateOf("") }
+    var contrasena by remember { mutableStateOf("") }
+    //var mensaje by remember { mutableStateOf("") }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -70,16 +75,30 @@ fun Login(modifier: Modifier = Modifier, navController: NavController) {
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            OutlinedTextField(value="", onValueChange = {}, label = {
-                Text("Ingrese correo electrónico")
+            OutlinedTextField(
+                value= correo,
+                onValueChange = { correo = it },
+                label = { Text("Ingrese correo electrónico")
             })
             Spacer(modifier = Modifier.height(7.dp))
 
 
-            OutlinedTextField(value="", onValueChange = {}, label = {
-                Text("Ingrese contraseña")
-            })
+            OutlinedTextField(
+                value= contrasena,
+                onValueChange = { contrasena = it },
+                label = { Text("Ingrese contraseña") },
+                visualTransformation = PasswordVisualTransformation()
+            )
             Spacer(modifier = Modifier.height(7.dp))
+
+            /*if(mensaje.isNotEmpty()){
+                Text(
+                    text = mensaje,
+                    color = Color.Red,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+            }*/
+
         }
         Column(
             modifier = modifier
