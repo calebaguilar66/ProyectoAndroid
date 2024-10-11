@@ -25,6 +25,30 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.proyectoandroid.ui.theme.ProyectoAndroidTheme
 
+//Clase Usuario con respectivas funciones de iniciar sesion y cerrar sesion
+
+class Usuario(val email: String, val password: String){
+    companion object{
+        private val usuarios = listOf(
+            Usuario("admin@gmail.cl", "admin"),
+            Usuario("caleb@gmail.cl", "caleb"),
+            Usuario("claudio@gmail.cl", "claudio")
+        )
+        fun iniciarSesion(correo: String, contrasena: String): Boolean{
+            return usuarios.find { it.email == correo && it.password == contrasena } != null
+        }
+
+        fun cerrarSesion(navController: NavController){
+            navController.navigate("login"){
+                popUpTo("login") { inclusive = true }
+            }
+        }
+
+    }
+}
+
+
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +71,7 @@ class MainActivity : ComponentActivity() {
 fun Login(modifier: Modifier = Modifier, navController: NavController) {
     var correo by remember { mutableStateOf("") }
     var contrasena by remember { mutableStateOf("") }
-    //var mensaje by remember { mutableStateOf("") }
+    var mensaje by remember { mutableStateOf("") }
 
     Column(
         modifier = modifier
@@ -91,13 +115,13 @@ fun Login(modifier: Modifier = Modifier, navController: NavController) {
             )
             Spacer(modifier = Modifier.height(7.dp))
 
-            /*if(mensaje.isNotEmpty()){
+            if(mensaje.isNotEmpty()){
                 Text(
                     text = mensaje,
                     color = Color.Red,
                     modifier = Modifier.padding(top = 8.dp)
                 )
-            }*/
+            }
 
         }
         Column(
@@ -105,7 +129,19 @@ fun Login(modifier: Modifier = Modifier, navController: NavController) {
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Button(onClick = { navController.navigate("protocolos")}){
+            Button(onClick = {
+                when{
+                    correo.isBlank() || contrasena.isBlank() ->{
+                        mensaje = "Rellene los campos, por favor."
+                    }
+                    Usuario.iniciarSesion(correo, contrasena) ->{
+                        navController.navigate("protocolos")
+                    }
+                    else -> {
+                        mensaje = "Credenciales incorrectas"
+                    }
+                }
+            }){
                 Text("Login")
             }
 
@@ -122,6 +158,7 @@ fun Protocolos(modifier: Modifier = Modifier, navController: NavController){
             .fillMaxSize()
             .padding(16.dp)
     ){
+        // Top Bar (Parte superior de la aplicacion)
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -132,14 +169,14 @@ fun Protocolos(modifier: Modifier = Modifier, navController: NavController){
             Button(onClick = { navController.navigate("protocolos") }) {
                 Text("Protocolos")
             }
-            Button(onClick = { navController.navigate("login") }) {
+            Button(onClick = { Usuario.cerrarSesion(navController) }) {
                 Text("Cerrar sesión")
             }
 
         }
         Spacer(modifier = Modifier.height(70.dp))
 
-
+        // Cuerpo de la ventana de Protocolos
         Text(
             text = "Protocolos de Seguridad",
             fontSize = 18.sp,
