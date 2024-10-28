@@ -62,6 +62,7 @@ class MainActivity : ComponentActivity() {
                         composable("login") { Login(modifier = Modifier.padding(innerPadding), navController = navController) }
                         composable("protocolos") { Protocolos(modifier = Modifier.padding(innerPadding), navController = navController) }
                         composable("gps") { GPSDireccion(modifier = Modifier.padding(innerPadding), navController = navController) }
+                        composable("noticias") { Noticias(modifier = Modifier.padding(innerPadding), navController = navController) }
                     }
                 }
             }
@@ -201,6 +202,67 @@ fun Protocolos(modifier: Modifier = Modifier, navController: NavController){
     }
 }
 
+@Composable
+fun Noticias(modifier : Modifier, navController: NavController){
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+
+        TopBar(navController)
+
+        Spacer(modifier = Modifier.height(26.dp))
+
+        CartaProtocolo(
+            titulo = "Titulo de Noticias",
+            contenido = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac risus vel ligula lacinia ullamcorper. Pellentesque habitant morbi tristique senectus et netus et malesuada fames. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac risus vel ligula lacinia ullamcorper. Pellentesque habitant morbi tristique senectus et netus et malesuada fames. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac risus vel ligula lacinia ullamcorper. Pellentesque habitant morbi tristique senectus et netus et malesuada fames."
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        CartaProtocolo(
+            titulo = "Importante",
+            contenido = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac risus vel ligula lacinia ullamcorper. Pellentesque habitant morbi tristique senectus et netus et malesuada fames."
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+                .background(DarkGreen)
+                .padding(8.dp)
+        ) {
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = "(Nombre de Usuario)",
+                    color = Color.White
+                )
+                Text(
+                    text = "Jefatura de Carrera",
+                    color = Color.White
+                )
+            }
+            Column(
+                horizontalAlignment = Alignment.End
+            ) {
+                Text(
+                    text = "21/12/2024",
+                    color = Color.White
+                )
+                Text(
+                    text = "8:45",
+                    color = Color.White
+                )
+            }
+        }
+    }
+}
+
 //Ventana de Como llegar a ciertos lugares dentro del establecimiento
 @Composable
 fun GPSDireccion(modifier : Modifier, navController: NavController){
@@ -290,18 +352,37 @@ fun GPSDireccion(modifier : Modifier, navController: NavController){
 @Composable
 fun TopBar(navController: NavController){
     TopAppBar(
-        title = { Text("IPST", color = Color.White)},
-        actions = {
-            TextButton(onClick = {navController.navigate("protocolos") }) {
-                Text("Protocolos", color = Color.White)
+        title = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            ){
+                Text(
+                    "IPST",
+                    color = Color.White,
+                    modifier = Modifier.padding(4.dp)
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top=4.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ){
+                    TextButton(onClick = { navController.navigate("protocolos") }) {
+                        Text("Protocolos", color = Color.White)
+                    }
+                    TextButton(onClick = { navController.navigate("gps") }) {
+                        Text("GPS", color = Color.White)
+                    }
+                    TextButton(onClick = { navController.navigate("noticias") }) {
+                        Text("Noticias", color = Color.White)
+                    }
+                    TextButton(onClick = { Usuario.cerrarSesion(navController) }) {
+                        Text("Cerrar Sesión", color = Color.White)
+                    }
+                }
             }
-            TextButton(onClick = {navController.navigate("gps") }) {
-                Text("Como llegar", color = Color.White)
-            }
-            TextButton(onClick = {Usuario.cerrarSesion(navController) }) {
-                Text("Cerrar Sesion", color = Color.White)
-            }
-
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = DarkGreen
@@ -356,6 +437,13 @@ fun ProtocolosPreview(){
 fun GPSDireccionesPreview(){
     ProyectoAndroidTheme {
         GPSDireccion(modifier = Modifier, navController = rememberNavController())
+    }
+}
+@Preview(showBackground = true)
+@Composable
+fun NoticiasPreview(){
+    ProyectoAndroidTheme {
+        Noticias(modifier = Modifier, navController = rememberNavController())
     }
 }
 
