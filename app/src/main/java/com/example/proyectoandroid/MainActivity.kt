@@ -23,6 +23,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.proyectoandroid.ui.theme.DarkGreen
 import com.example.proyectoandroid.ui.theme.ProyectoAndroidTheme
 
 //Clase Usuario con respectivas funciones de iniciar sesion y cerrar sesion
@@ -85,6 +86,8 @@ fun Login(modifier: Modifier = Modifier, navController: NavController) {
             modifier = Modifier.size(250.dp)
         )
 
+        Spacer(modifier = Modifier.height(16.dp))
+
         Column(
             modifier = modifier
                 .padding(16.dp),
@@ -94,6 +97,9 @@ fun Login(modifier: Modifier = Modifier, navController: NavController) {
             Text("Inicia sesión y descubre")
             Text("todo lo nuevo que tenemos para ti!")
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         Column(
             modifier = modifier
                 .padding(16.dp),
@@ -142,7 +148,7 @@ fun Login(modifier: Modifier = Modifier, navController: NavController) {
                     }
                 }
             }){
-                Text("Login")
+                Text("Login", color = Color.White)
             }
 
         }
@@ -156,68 +162,34 @@ fun Protocolos(modifier: Modifier = Modifier, navController: NavController){
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .background(Color.White)
     ){
-        // Top Bar (Parte superior de la aplicacion)
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.White)
-                .padding(vertical = 8.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ){
-            Button(onClick = { navController.navigate("protocolos") }) {
-                Text("Protocolos")
-            }
-            Button(onClick = { Usuario.cerrarSesion(navController) }) {
-                Text("Cerrar sesión")
-            }
+        TopBar(navController)
+        
+        Spacer(modifier = Modifier.height(40.dp))
 
-        }
-        Spacer(modifier = Modifier.height(70.dp))
+        CartaProtocolo(
+            titulo = "Protocolos de seguridad",
+            contenido = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac risus vel ligula lacinia ullamcorper. Pellentesque habitant morbi tristique senectus et netus et malesuada fames."
+        )
 
-        // Cuerpo de la ventana de Protocolos
-        Text(
-            text = "Protocolos de Seguridad",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 8.dp)
+        Spacer(modifier = Modifier.height(26.dp))
+
+        CartaProtocolo(
+            titulo = "Protocolos de salud",
+            contenido = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac risus vel ligula lacinia ullamcorper. Pellentesque habitant morbi tristique senectus et netus et malesuada fames."
         )
+
+        Spacer(modifier = Modifier.height(26.dp))
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 16.dp)
-                .border(1.dp, Color.Green)
                 .padding(8.dp)
-        ){
-            Text(
-                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac risus vel ligula lacinia ullamcorper. Pellentesque habitant morbi tristique senectus et netus et malesuada fames.",
-                fontSize = 14.sp
-            )
-        }
-        Text(
-            text = "Protocolos de Salud",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp)
-                .border(1.dp, Color.Green)
-                .padding(8.dp)
-        ){
-            Text(
-                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac risus vel ligula lacinia ullamcorper. Pellentesque habitant morbi tristique senectus et netus et malesuada fames.",
-                fontSize = 14.sp
-            )
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
                 .height(200.dp)
-                .border(1.dp, Color.Green)
+                .border(1.dp, DarkGreen)
+                .background(Color.LightGray),
+            contentAlignment = Alignment.Center
         ){
             Text(
                 "Video",
@@ -225,9 +197,53 @@ fun Protocolos(modifier: Modifier = Modifier, navController: NavController){
             )
         }
 
-
     }
 }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopBar(navController: NavController){
+    TopAppBar(
+        title = { Text("IPST", color = Color.White)},
+        actions = {
+            TextButton(onClick = {navController.navigate("protocolos") }) {
+                Text("Protocolos", color = Color.White)
+            }
+            TextButton(onClick = {Usuario.cerrarSesion(navController) }) {
+                Text("Cerrar Sesion", color = Color.White)
+            }
+
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = DarkGreen
+        )
+    )
+}
+
+@Composable
+fun CartaProtocolo(titulo : String, contenido: String){
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .border(1.dp, DarkGreen)
+            .padding(16.dp)
+            .background(Color.White)
+    ) {
+        Text(
+            text = titulo,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            color = DarkGreen,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        Text(
+            text = contenido,
+            fontSize = 14.sp,
+            color = Color.Black
+        )
+    }
+}
+
 
 @Preview(showBackground = true)
 @Composable
