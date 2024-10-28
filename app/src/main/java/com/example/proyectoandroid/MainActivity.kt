@@ -61,6 +61,7 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController = navController, startDestination = "login") {
                         composable("login") { Login(modifier = Modifier.padding(innerPadding), navController = navController) }
                         composable("protocolos") { Protocolos(modifier = Modifier.padding(innerPadding), navController = navController) }
+                        composable("gps") { GPSDireccion(modifier = Modifier.padding(innerPadding), navController = navController) }
                     }
                 }
             }
@@ -199,6 +200,92 @@ fun Protocolos(modifier: Modifier = Modifier, navController: NavController){
 
     }
 }
+
+//Ventana de Como llegar a ciertos lugares dentro del establecimiento
+@Composable
+fun GPSDireccion(modifier : Modifier, navController: NavController){
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+        TopBar(navController)
+
+        Spacer(modifier = Modifier.height(36.dp))
+
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .background(Color(0xFFF5F5F5))
+                .border(1.dp, DarkGreen)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            //Origen
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(vertical = 8.dp)
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.gps),
+                    contentDescription = null,
+                    tint = DarkGreen,
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = {},
+                    label = { Text("Ingrese origen") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
+            //Destino
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(vertical = 8.dp)
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.destino),
+                    contentDescription = null,
+                    tint = DarkGreen,
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = {},
+                    label = { Text("Ingrese destino") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(300.dp)
+                .padding(horizontal = 16.dp)
+                .border(1.dp, DarkGreen)
+                .background(Color.LightGray),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                "Vista previa del mapa",
+                color = Color.Gray
+            )
+        }
+    }
+
+}
+
+
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(navController: NavController){
@@ -207,6 +294,9 @@ fun TopBar(navController: NavController){
         actions = {
             TextButton(onClick = {navController.navigate("protocolos") }) {
                 Text("Protocolos", color = Color.White)
+            }
+            TextButton(onClick = {navController.navigate("gps") }) {
+                Text("Como llegar", color = Color.White)
             }
             TextButton(onClick = {Usuario.cerrarSesion(navController) }) {
                 Text("Cerrar Sesion", color = Color.White)
@@ -245,6 +335,8 @@ fun CartaProtocolo(titulo : String, contenido: String){
 }
 
 
+
+
 @Preview(showBackground = true)
 @Composable
 fun LoginPreview() {
@@ -257,6 +349,13 @@ fun LoginPreview() {
 fun ProtocolosPreview(){
     ProyectoAndroidTheme {
         Protocolos(navController = rememberNavController())
+    }
+}
+@Preview(showBackground = true)
+@Composable
+fun GPSDireccionesPreview(){
+    ProyectoAndroidTheme {
+        GPSDireccion(modifier = Modifier, navController = rememberNavController())
     }
 }
 
