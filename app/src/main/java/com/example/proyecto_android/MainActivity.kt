@@ -27,6 +27,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.proyecto_android.sensors.CompassScreen
 import com.example.proyecto_android.ui.theme.Proyecto_androidTheme
 
 
@@ -65,6 +66,7 @@ class MainActivity : ComponentActivity() {
 
                 }
             }
+            CompassScreen()
         }
     }
 }
@@ -275,6 +277,5 @@ private fun requestLocationPermission() {
         locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 }
-
 
 

@@ -80,6 +80,10 @@ dependencies {
     kapt("androidx.room:room-compiler:$room_version")
 
 
+    //dependencia de permisos
+    implementation("com.google.android.material:material:1.9.0")
+
+
     //Uso de la API de Fused Location Provider
     implementation("com.google.android.gms:play-services-location:21.3.0")
 
@@ -92,6 +96,9 @@ dependencies {
 
     // Google Play Services Location
     implementation("com.google.android.gms:play-services-location:21.3.0")// Versión más reciente de los servicios de ubicación
+
+
+
 
 
 
