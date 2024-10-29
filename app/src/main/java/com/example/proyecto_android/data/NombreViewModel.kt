@@ -1,10 +1,16 @@
 package com.example.proyecto_android.data
 
 import android.app.Application
+import android.content.pm.PackageManager
+import android.os.Bundle
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.proyecto_android.Manifest
 import kotlinx.coroutines.launch
 
 class NombreViewModel(application: Application): AndroidViewModel(application) {
@@ -34,4 +40,11 @@ class NombreViewModel(application: Application): AndroidViewModel(application) {
             _nombres.value = nombres
         }
     }
+
+
+
+
+
+
+
 }
