@@ -1,14 +1,16 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")
+
 }
 
 android {
-    namespace = "com.example.proyectoandroid"
+    namespace = "com.example.proyecto_android"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.proyectoandroid"
+        applicationId = "com.example.proyecto_android"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -50,6 +52,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    val room_version = "2.6.1"
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -59,6 +63,10 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.room.common)
+    implementation(libs.androidx.room.common.jvm)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -66,4 +74,26 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
+
+
+    //Uso de la API de Fused Location Provider
+    implementation("com.google.android.gms:play-services-location:21.3.0")
+
+
+    //dependencias para clase LocationService
+    implementation("androidx.compose.runtime:runtime:1.7.4") // Asegúrate de usar la versión correcta de Compose
+    implementation("androidx.compose.ui:ui:1.7.4") // Para la UI de Compose
+
+
+
+    // Google Play Services Location
+    implementation("com.google.android.gms:play-services-location:21.3.0")// Versión más reciente de los servicios de ubicación
+
+
+
+
 }
