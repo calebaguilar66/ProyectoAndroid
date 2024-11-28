@@ -15,8 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.proyectoandroid.Usuario
 import com.example.proyectoandroid.ui.theme.DarkGreen
+import com.example.proyectoandroid.utils.FirebaseUtils.cerrarSesion
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,8 +51,17 @@ fun TopBar(navController: NavController){
                     TextButton(onClick = { navController.navigate("horario") }) {
                         Text("Horarios", color = Color.White)
                     }
-                    TextButton(onClick = { Usuario.cerrarSesion(navController) }) {
-                        Text("Logout", color = Color.White)
+                    TextButton(onClick = {
+                        cerrarSesion(
+                            onSuccess = {
+                                navController.navigate("login")
+                            },
+                            onError = { error ->
+                                println("Error al cerrar sesión: $error")
+                            }
+                        )
+                    }) {
+                        Text(text = "Cerrar Sesión")
                     }
                 }
             }

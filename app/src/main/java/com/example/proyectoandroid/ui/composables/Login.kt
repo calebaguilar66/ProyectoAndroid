@@ -1,10 +1,12 @@
 package com.example.proyectoandroid.ui.composables
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -27,9 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.proyectoandroid.Usuario
 import com.example.proyectoandroid.R
-
+import com.example.proyectoandroid.utils.FirebaseUtils.autenticarUsuario
 
 
 @Composable
@@ -99,21 +100,30 @@ fun Login(modifier: Modifier = Modifier, navController: NavController) {
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Button(onClick = {
-                when{
-                    correo.isBlank() || contrasena.isBlank() ->{
-                        mensaje = "Rellene los campos, por favor."
-                    }
-                    Usuario.iniciarSesion(correo, contrasena) ->{
+            Button(
+                onClick = {
+                    autenticarUsuario(correo, contrasena, onSuccess = {
                         navController.navigate("protocolos")
-                    }
-                    else -> {
-                        mensaje = "Credenciales incorrectas"
-                    }
-                }
-            }){
+                    }, onError = { error ->
+                        mensaje = error
+                    })
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Text("Login", color = Color.White)
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "¿No tienes cuenta? Regístrate",
+                color = Color.Blue,
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .clickable {
+                        navController.navigate("registro")
+                    }
+            )
 
         }
 
