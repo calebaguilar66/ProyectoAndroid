@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
+    alias(libs.plugins.googleService)
 }
 
 android {
@@ -76,5 +77,8 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
     testImplementation("androidx.room:room-testing:$room_version")
+
+    //Implementando dependencias de firebase Autenticacion
+    implementation(libs.firebaseAuth)
 
 }
