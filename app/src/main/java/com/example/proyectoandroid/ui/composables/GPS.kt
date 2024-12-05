@@ -26,6 +26,13 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.proyectoandroid.ui.theme.DarkGreen
 import com.example.proyectoandroid.R
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerState
+import com.google.maps.android.compose.rememberCameraPositionState
+
 
 @Composable
 fun GPSDireccion(modifier : Modifier, navController: NavController){
@@ -90,23 +97,57 @@ fun GPSDireccion(modifier : Modifier, navController: NavController){
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(300.dp)
-                .padding(horizontal = 16.dp)
-                .border(1.dp, DarkGreen)
-                .background(Color.LightGray),
-            contentAlignment = Alignment.Center
+        val cameraPositionState = rememberCameraPositionState()
+
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(300.dp)
+            .padding(horizontal = 16.dp)
+            .border(1.dp, DarkGreen),
+    ) {
+        GoogleMap(
+            modifier = Modifier.matchParentSize(),
+            cameraPositionState = cameraPositionState
         ) {
-            Text(
-                "Vista previa del mapa",
-                color = Color.Gray
+            Marker(
+                state = MarkerState(position = LatLng(40.7128, -74.0060)), // Ejemplo: Nueva York
+                title = "Nueva York"
             )
         }
     }
 
+
+    }
+
+
+//    val cameraPositionState = rememberCameraPositionState()
+
+
+//    Box(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .height(300.dp)
+//            .padding(horizontal = 16.dp)
+//            .border(1.dp, DarkGreen),
+//    ) {
+//        GoogleMap(
+//            modifier = Modifier.matchParentSize(),
+//            cameraPositionState = cameraPositionState
+//        ) {
+//            Marker(
+//                state = MarkerState(position = LatLng(40.7128, -74.0060)), // Ejemplo: Nueva York
+//                title = "Nueva York"
+//            )
+//        }
+//    }
 }
+
+
+
+
+
 @Preview(showBackground = true)
 @Composable
 fun GPSPreview(){

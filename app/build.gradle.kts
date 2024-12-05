@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.googleService)
 }
 
+
+
 android {
     namespace = "com.example.proyectoandroid"
     compileSdk = 34
@@ -78,7 +80,12 @@ dependencies {
     kapt("androidx.room:room-compiler:$room_version")
     testImplementation("androidx.room:room-testing:$room_version")
 
+    implementation("com.google.android.gms:play-services-maps:18.1.0")
+
+
     //Implementando dependencias de firebase Autenticacion
     implementation(libs.firebaseAuth)
+    //dependencia de Maps
+    implementation("com.google.maps.android:maps-compose:2.11.4")
 
 }
