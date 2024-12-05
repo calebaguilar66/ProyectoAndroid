@@ -47,6 +47,7 @@ fun PantallaPrincipal() {
             composable("horario") { Horarios(modifier = Modifier.padding(innerPadding), navController = navController, viewModel = horarioViewModel) }
             composable("formularioHorarios"){ FormularioHorarios(navController = navController, viewModel = horarioViewModel) }
             composable("registro") { Registro(modifier = Modifier.padding(innerPadding), navController = navController) }
+            composable("formularioNoticias"){ FormularioNoticias(navController = navController) }
         }
     }
 }
