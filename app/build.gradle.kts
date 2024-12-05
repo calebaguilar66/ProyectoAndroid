@@ -78,7 +78,8 @@ dependencies {
     kapt("androidx.room:room-compiler:$room_version")
     testImplementation("androidx.room:room-testing:$room_version")
 
-    //Implementando dependencias de firebase Autenticacion
+    //Implementando dependencias de firebase (Autenticacion y Database)
     implementation(libs.firebaseAuth)
+    implementation(libs.firebaseStore)
 
 }
