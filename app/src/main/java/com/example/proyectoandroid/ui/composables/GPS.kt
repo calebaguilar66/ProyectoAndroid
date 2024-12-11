@@ -46,6 +46,7 @@ import androidx.compose.ui.platform.LocalContext
 import com.google.android.gms.location.LocationServices
 import android.location.Location
 import androidx.compose.material3.Button
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
 
@@ -195,7 +196,34 @@ fun GPSDireccion(modifier : Modifier, navController: NavController){
                 title = "Mi ubicación",
                 snippet = "Aquí estoy"
             )
+            var savedLocations by remember { mutableStateOf<List<LatLng>>(emptyList()) }
+
+            for (location in savedLocations) {
+                Marker(
+                    state = MarkerState(position = location),
+                    icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE) // Resaltar el marcador
+                )
+            }
+
+            Marker(
+                state = MarkerState(position = LatLng(-18.4833, -70.3102)),
+                title = "Casino",
+                snippet = "Chile"
+            )
+            Marker(
+                state = MarkerState(position = LatLng(-18.4830, -70.3100)),
+                title = "DAE",
+                snippet = "Chile"
+            )
+            Marker(
+                state = MarkerState(position = LatLng(-18.4834, -70.3100)),
+                title = "Sala 6",
+                snippet = "Chile"
+            )
         }
+
+
+
 
     } else {
         Column(
