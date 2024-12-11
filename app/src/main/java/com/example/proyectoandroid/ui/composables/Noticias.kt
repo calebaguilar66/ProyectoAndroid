@@ -1,15 +1,12 @@
 package com.example.proyectoandroid.ui.composables
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,69 +15,75 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.proyectoandroid.ui.theme.DarkGreen
+import com.example.proyectoandroid.utils.FirestoreUtils
 
 @Composable
-fun Noticias(modifier : Modifier, navController: NavController){
+fun Noticias(modifier: Modifier = Modifier, navController: NavController) {
+    // Estado para almacenar las noticias
+    var noticias by remember { mutableStateOf<List<Map<String, Any>>>(emptyList()) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    // Cargar las noticias desde Firestore
+    LaunchedEffect(Unit) {
+        FirestoreUtils.obtenerNoticias(
+            onSuccess = { noticias = it },
+            onError = { errorMessage = it }
+        )
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-
+        // Barra superior (TopBar)
         TopBar(navController)
 
-        Spacer(modifier = Modifier.height(26.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
-        CartaDeInformacion(
-            titulo = "Titulo de Noticias",
-            contenido = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac risus vel ligula lacinia ullamcorper. Pellentesque habitant morbi tristique senectus et netus et malesuada fames. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac risus vel ligula lacinia ullamcorper. Pellentesque habitant morbi tristique senectus et netus et malesuada fames. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac risus vel ligula lacinia ullamcorper. Pellentesque habitant morbi tristique senectus et netus et malesuada fames."
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        CartaDeInformacion(
-            titulo = "Importante",
-            contenido = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac risus vel ligula lacinia ullamcorper. Pellentesque habitant morbi tristique senectus et netus et malesuada fames."
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-                .background(DarkGreen)
-                .padding(8.dp)
+        // Botón para agregar noticias
+        IconButton(
+            onClick = { navController.navigate("formularioNoticias") },
+            modifier = Modifier.align(Alignment.End)
         ) {
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    text = "(Nombre de Usuario)",
-                    color = Color.White
-                )
-                Text(
-                    text = "Jefatura de Carrera",
-                    color = Color.White
-                )
-            }
-            Column(
-                horizontalAlignment = Alignment.End
-            ) {
-                Text(
-                    text = "21/12/2024",
-                    color = Color.White
-                )
-                Text(
-                    text = "8:45",
-                    color = Color.White
-                )
+            Icon(imageVector = Icons.Default.Add, contentDescription = "Agregar Noticia")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Mostrar error o la lista de noticias
+        if (errorMessage != null) {
+            Text(
+                text = errorMessage ?: "",
+                color = Color.Red,
+                modifier = Modifier.padding(16.dp)
+            )
+        } else if (noticias.isEmpty()) {
+            Text(
+                text = "No hay noticias disponibles.",
+                color = DarkGreen,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.CenterHorizontally)
+            )
+        } else {
+            // Lista de noticias
+            LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+                items(noticias.size) { index ->
+                    val noticia = noticias[index]
+                    CartaDeInformacion(
+                        titulo = noticia["titulo"]?.toString() ?: "Sin título",
+                        contenido = noticia["contenido"]?.toString() ?: "Sin contenido"
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
             }
         }
     }
 }
+
 @Preview(showBackground = true)
 @Composable
-fun NoticiasPreview(){
+fun NoticiasPreview() {
     Noticias(modifier = Modifier, navController = rememberNavController())
 }
