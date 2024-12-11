@@ -13,6 +13,7 @@ runtimeLivedata = "1.7.5"
 googleServiceVersion = "4.4.2"
 firebaseAuthV = "23.1.0"
 playServicesLocation = "21.3.0"
+firebaseFirestoreKtx = "25.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,6 +36,7 @@ androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtim
 
 firebaseAuth = {group="com.google.firebase" , name = "firebase-auth", version.ref="firebaseAuthV"}
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
+firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
