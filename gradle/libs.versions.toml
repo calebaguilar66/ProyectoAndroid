@@ -12,6 +12,7 @@ navigationCompose = "2.8.2"
 runtimeLivedata = "1.7.5"
 googleServiceVersion = "4.4.2"
 firebaseAuthV = "23.1.0"
+playServicesLocation = "21.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -33,6 +34,7 @@ androidx-lifecycle-livedata-ktx = "androidx.lifecycle:lifecycle-livedata-ktx:2.6
 androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
 
 firebaseAuth = {group="com.google.firebase" , name = "firebase-auth", version.ref="firebaseAuthV"}
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -32,10 +32,52 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.example.proyectoandroid.data.PermissionsHelper
+import android.Manifest
+import android.app.Activity
+import android.content.pm.PackageManager
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Arrangement
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
+import com.google.android.gms.location.LocationServices
+import android.location.Location
+import androidx.compose.material3.Button
+import com.google.maps.android.compose.MapProperties
+import com.google.maps.android.compose.MapUiSettings
 
 
 @Composable
 fun GPSDireccion(modifier : Modifier, navController: NavController){
+    val context = LocalContext.current
+
+    var hasPermissions by remember { mutableStateOf(PermissionsHelper.hasLocationPermissions(context)) }
+
+    LaunchedEffect(Unit) {
+        if (!hasPermissions) {
+            PermissionsHelper.requestLocationPermissions(context as Activity)
+        }
+    }
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        hasPermissions = permissions.all { it.value }
+    }
+
+    LaunchedEffect(Unit) {
+        if (!hasPermissions) {
+            launcher.launch(arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ))
+        }
+    }
+
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -54,7 +96,7 @@ fun GPSDireccion(modifier : Modifier, navController: NavController){
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            //Origen
+
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(vertical = 8.dp)
@@ -74,7 +116,7 @@ fun GPSDireccion(modifier : Modifier, navController: NavController){
                 )
             }
 
-            //Destino
+
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(vertical = 8.dp)
@@ -122,27 +164,57 @@ fun GPSDireccion(modifier : Modifier, navController: NavController){
     }
 
 
-//    val cameraPositionState = rememberCameraPositionState()
 
+    if (hasPermissions) {
+        val mapProperties = remember {
+            MapProperties(isMyLocationEnabled = true)
+        }
+        val uiSettings = remember {
+            MapUiSettings(zoomControlsEnabled = true)
+        }
+        var currentLocation by remember { mutableStateOf(LatLng(0.0, 0.0)) }
 
-//    Box(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .height(300.dp)
-//            .padding(horizontal = 16.dp)
-//            .border(1.dp, DarkGreen),
-//    ) {
-//        GoogleMap(
-//            modifier = Modifier.matchParentSize(),
-//            cameraPositionState = cameraPositionState
-//        ) {
-//            Marker(
-//                state = MarkerState(position = LatLng(40.7128, -74.0060)), // Ejemplo: Nueva York
-//                title = "Nueva York"
-//            )
-//        }
-//    }
+        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+
+        LaunchedEffect(key1 = true) {
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    if (location != null) {
+                        currentLocation = LatLng(location.latitude, location.longitude)
+                    }
+                }
+        }
+
+        GoogleMap(
+            modifier = Modifier.fillMaxSize(),
+            properties = mapProperties,
+            uiSettings = uiSettings
+        ) {
+            Marker(
+                state = MarkerState(position = currentLocation),
+                title = "Mi ubicación",
+                snippet = "Aquí estoy"
+            )
+        }
+
+    } else {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("Se necesitan permisos de ubicación para usar esta función.")
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = {
+            }) {
+                Text("Otorgar permisos")
+            }
+        }
+    }
+
 }
+
+
 
 
 
